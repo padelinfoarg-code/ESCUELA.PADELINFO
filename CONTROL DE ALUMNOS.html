@@ -143,7 +143,7 @@ let alumnos = JSON.parse(localStorage.getItem("alumnos")) || [];
 const PASSWORD = "1234";
 
 function irHome() {
-  window.location.href = "HOME.html";
+  window.location.href = "INDEX.html";
 }
 
 function irEntrenamientos() {
@@ -205,6 +205,12 @@ function renderControl() {
     const circ = document.createElement("div");
     circ.className = "circulos";
 
+
+// 🔒 Normalizar circulos si no existen
+if (!Array.isArray(a.circulos)) {
+  a.circulos = [false, false, false, false, false];
+}
+
     a.circulos.forEach((v, i) => {
       const c = document.createElement("div");
       c.className = "circulo" + (v ? " activo" : "");
@@ -259,7 +265,16 @@ function renderEstado() {
   >    
 
     <button onclick="nuevoAlumno()">Nuevo alumno</button>
+    <button onclick="importarJSON()">Importar JSON</button>
     <button onclick="exportar()">Exportar JSON</button>
+
+<input 
+  type="file" 
+  id="inputJSON" 
+  accept=".json" 
+  style="display:none"
+  onchange="leerJSON(this)"
+>
     <hr>
   `;
 
@@ -339,7 +354,7 @@ function guardarNuevo() {
     apellido,
     telefono,
     FechaNacimiento,
-    circulos: [false,false,false,false,false],
+    circulos: [true,false,false,false,false],
     pagos: []
   });
 
@@ -539,9 +554,53 @@ function actualizarFechaHora() {
 actualizarFechaHora();
 setInterval(actualizarFechaHora, 60000);
 
+function importarJSON() {
+  document.getElementById("inputJSON").click();
+}
+
+function leerJSON(input) {
+  const archivo = input.files[0];
+  if (!archivo) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const datos = JSON.parse(e.target.result);
+
+      // Validación mínima
+      if (!Array.isArray(datos)) {
+        alert("El archivo no tiene un formato válido de alumnos.");
+        return;
+      }
+
+      if (!confirm("⚠ Esto reemplazará TODOS los alumnos actuales.\n\n¿Deseás continuar?")) {
+        input.value = "";
+        return;
+      }
+
+      alumnos = datos;
+      guardar();
+      renderEstado();
+
+      alert("✔ Datos importados correctamente");
+
+    } catch (error) {
+      alert("Error al leer el archivo JSON.");
+      console.error(error);
+    }
+
+    input.value = ""; // reset input
+  };
+
+  reader.readAsText(archivo);
+}
+
+
 /* INIT */
 renderControl();
 </script>
 
 </body>
 </html>
+
