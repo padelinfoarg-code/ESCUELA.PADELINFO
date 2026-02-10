@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>CONTROL DE ALUMNOS</title>
+
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 24px;
+  background: 
+    linear-gradient(rgba(0,0,0,0), rgba(245,2,0,0)),
+    url("fondo.jpg") center / cover no-repeat fixed;
+  color: #999;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.nombre {
+  flex: 1;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.circulos {
+  display: flex;
+  gap: 8px;
+}
+
+.circulo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  cursor: pointer;
+}
+
+.circulo.activo {
+  background: green;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 13px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  background: #1976d2;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.oculto { display: none; }
+
+.modal-box {
+  background: #fff;
+  padding: 20px;
+  min-width: 280px;
+  position: relative;
+}
+
+.cerrar {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#fechaHora {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: rgba(0,0,0,0.45);
+  padding: 8px 14px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="fechaHora"></div>
+
+<h1 id="titulo">CONTROL DE ALUMNOS</h1>
+
+<button onclick="irHome()">HOME</button>
+<button onclick="irEstado()">Estado de alumnos</button>
+<button onclick="irEntrenamientos()">ENTRENAMIENTOS</button>
+
+
+<div id="contenido"></div>
+
+
+
+<!-- MODAL -->
+<div id="modal" class="modal oculto">
+  <div class="modal-box">
+    <span class="cerrar" onclick="cerrarModal()">X</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+/* =====================
+   DATOS
+===================== */
+let alumnos = JSON.parse(localStorage.getItem("alumnos")) || [];
+const PASSWORD = "1234";
+
+function irHome() {
+  window.location.href = "HOME.html";
+}
+
+function irEntrenamientos() {
+  window.location.href = "ENTRENAMIENTOS.html";
+}
+
+/* =====================
+   UTILIDADES
+===================== */
+function guardar() {
+  localStorage.setItem("alumnos", JSON.stringify(alumnos));
+}
+
+const modal = document.getElementById("modal");
+const modalBody = document.getElementById("modalBody");
+
+function mostrarModal(html) {
+  modalBody.innerHTML = html;
+  modal.classList.remove("oculto");
+}
+
+function cerrarModal() {
+  modal.classList.add("oculto");
+}
+
+/* =====================
+   CONTROL DE ALUMNOS
+===================== */
+function renderControl() {
+  document.getElementById("titulo").innerText = "CONTROL DE ALUMNOS";
+  const cont = document.getElementById("contenido");
+  cont.innerHTML = "";
+
+ /* ===== CUMPLEAÑOS ===== */
+  const cumpleanieros = alumnos.filter(cumpleañosHoy);
+
+  if (cumpleanieros.length > 0) {
+    cumpleanieros.forEach(a => {
+      const aviso = document.createElement("div");
+      aviso.className = "fila";
+      aviso.style.background = "#ffe0f0";
+      aviso.style.border = "2px solid #e91e63";
+      aviso.style.fontWeight = "bold";
+      aviso.style.fontSize = "18px";
+      aviso.style.justifyContent = "center";
+      aviso.innerText = `🎉 HOY CUMPLE ${a.nombre} ${a.apellido} 🎂`;
+      cont.appendChild(aviso);
+    });
+  }
+
+  alumnos.forEach(a => {
+    const fila = document.createElement("div");
+    fila.className = "fila";
+
+    const nombre = document.createElement("div");
+    nombre.className = "nombre";
+    nombre.innerText = a.nombre + " " + a.apellido;
+
+    const circ = document.createElement("div");
+    circ.className = "circulos";
+
+    a.circulos.forEach((v, i) => {
+      const c = document.createElement("div");
+      c.className = "circulo" + (v ? " activo" : "");
+      c.onclick = () => {
+        a.circulos[i] = !a.circulos[i];
+        guardar();
+        renderControl();
+      };
+      circ.appendChild(c);
+    });
+
+    fila.appendChild(nombre);
+    fila.appendChild(circ);
+    cont.appendChild(fila);
+  });
+}
+
+/* =====================
+   ESTADO DE ALUMNOS
+===================== */
+function irEstado() {
+  mostrarModal(`
+    <h3>Contraseña</h3>
+    <input id="pass" type="password">
+    <br><br>
+    <button onclick="login()">Ingresar</button>
+  `);
+}
+
+function login() {
+  const pass = document.getElementById("pass").value;
+  if (pass !== PASSWORD) {
+    alert("Contraseña incorrecta");
+    return;
+  }
+  cerrarModal();
+  renderEstado();
+}
+
+function renderEstado() {
+  document.getElementById("titulo").innerText = "ESTADO DE ALUMNOS";
+  const cont = document.getElementById("contenido");
+  cont.innerHTML = `
+    <button onclick="renderControl()">⬅ Volver a CONTROL DE ALUMNOS</button>
+    <br><br>
+
+    <input 
+    id="busqueda" 
+    placeholder="Buscar alumno (nombre, apellido o teléfono)" 
+    oninput="filtrarAlumnos()"
+    style="padding:8px; width:260px; border-radius:10px; border:1px solid #ccc;"
+  >    
+
+    <button onclick="nuevoAlumno()">Nuevo alumno</button>
+    <button onclick="exportar()">Exportar JSON</button>
+    <hr>
+  `;
+
+   mostrarListado(alumnos);
+
+}
+
+function mostrarListado(lista) {
+  const cont = document.getElementById("contenido");
+
+  lista.forEach(a => {
+    const fila = document.createElement("div");
+    fila.className = "fila";
+    fila.innerHTML = `
+      <div class="nombre">${a.nombre} ${a.apellido}</div>
+      <button onclick="editarAlumno(${a.id})">Editar Datos</button>
+      <button onclick="verPagos(${a.id})">Historial de pagos</button>
+      <button onclick="borrarAlumno(${a.id})">Borrar Alumno</button>
+      <button onclick="pago(${a.id})">Nuevo Pago</button>
+    `;
+    cont.appendChild(fila);
+  });
+}
+
+function filtrarAlumnos() {
+  const texto = document.getElementById("busqueda").value.toLowerCase();
+
+  const filtrados = alumnos.filter(a =>
+    a.nombre.toLowerCase().includes(texto) ||
+    a.apellido.toLowerCase().includes(texto) ||
+    a.telefono.includes(texto)
+  );
+
+  const cont = document.getElementById("contenido");
+
+  // Borra SOLO las filas (no los botones)
+  cont.querySelectorAll(".fila").forEach(f => f.remove());
+
+  mostrarListado(filtrados);
+}
+
+
+
+/* =====================
+   ALUMNOS
+===================== */
+function nuevoAlumno() {
+  mostrarModal(`
+    <h3>Nuevo alumno</h3>
+    <input id="nombre" placeholder="Nombre"><br><br>
+    <input id="apellido" placeholder="Apellido"><br><br>
+    <input id="telefono" placeholder="Teléfono"><br><br>
+    <input id="FechaNacimiento" type="date"><br><br>
+
+    <button onclick="guardarNuevo()">Guardar</button>
+  `);
+}
+
+function guardarNuevo() {
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const telefono = document.getElementById("telefono").value;
+  const FechaNacimiento = document.getElementById("FechaNacimiento").value;
+
+  const repetido = alumnos.find(a =>
+    (a.nombre === nombre && a.apellido === apellido) ||
+    a.telefono === telefono
+  );
+
+  if (repetido && !confirm("Ya existe un alumno con esos datos. ¿Crear igual?")) {
+    return;
+  }
+
+  alumnos.unshift({
+    id: Date.now(),
+    nombre,
+    apellido,
+    telefono,
+    FechaNacimiento,
+    circulos: [false,false,false,false,false],
+    pagos: []
+  });
+
+  guardar();
+  cerrarModal();
+  renderEstado();
+}
+
+/* =====================
+   PAGOS
+===================== */
+
+function pago(id) {
+  const hoy = new Date().toISOString().slice(0, 10);
+
+  mostrarModal(`
+    <h3>Nuevo pago</h3>
+
+    <label>Fecha</label><br>
+    <input id="fecha" type="date" value="${hoy}"><br><br>
+
+    <label>Monto</label><br>
+    <input id="monto" placeholder="Monto"><br><br>
+
+    <button onclick="guardarPago(${id})">Guardar</button>
+  `);
+}
+
+function guardarPago(id) {
+  const monto = document.getElementById("monto").value;
+  const fechaInput = document.getElementById("fecha").value;
+  const alumno = alumnos.find(a => a.id === id);
+
+  const fecha = fechaInput
+    ? new Date(fechaInput).toLocaleDateString()
+    : new Date().toLocaleDateString();
+
+  alumno.pagos.push({
+    fecha,
+    monto
+  });
+
+  alumnos = alumnos.filter(a => a.id !== id);
+  alumnos.unshift(alumno);
+
+  guardar();
+  cerrarModal();
+  renderEstado();
+}
+
+/* =====================
+   EXPORTAR
+===================== */
+function exportar() {
+  const blob = new Blob(
+    [JSON.stringify(alumnos, null, 2)],
+    { type: "application/json" }
+  );
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "alumnos.json";
+  link.click();
+}
+
+function verPagos(id) {
+  const alumno = alumnos.find(a => a.id === id);
+
+  if (alumno.pagos.length === 0) {
+    mostrarModal(`
+      <h3>Historial de pagos</h3>
+      <p><strong>Último pago:</strong> Sin pagos registrados</p>
+      <p><strong>Total pagado:</strong> $0</p>
+    `);
+    return;
+  }
+
+  let total = 0;
+  const ultimoPago = alumno.pagos[alumno.pagos.length - 1].fecha;
+
+  let html = `
+    <h3>Historial de pagos</h3>
+    <p><strong>Último pago:</strong> ${ultimoPago}</p>
+    <ul>
+  `;
+
+  alumno.pagos.forEach(p => {
+    const monto = Number(p.monto) || 0;
+    total += monto;
+    html += `<li>${p.fecha} — $${monto}</li>`;
+  });
+
+  html += `
+    </ul>
+    <hr>
+    <p><strong>Total pagado:</strong> $${total}</p>
+  `;
+
+  mostrarModal(html);
+}
+
+function editarAlumno(id) {
+  const alumno = alumnos.find(a => a.id === id);
+
+  mostrarModal(`
+    <h3>Editar alumno</h3>
+    <input id="editNombre" value="${alumno.nombre}" placeholder="Nombre"><br><br>
+    <input id="editApellido" value="${alumno.apellido}" placeholder="Apellido"><br><br>
+    <input id="editTelefono" value="${alumno.telefono}" placeholder="Teléfono"><br><br>
+    <input id="editFechaNacimiento" value="${alumno.FechaNacimiento || ''}" placeholder="Ingrese F.N."><br><br>
+    <button onclick="guardarEdicion(${id})">Guardar cambios</button>
+  `);
+}
+
+function guardarEdicion(id) {
+  const nombre = document.getElementById("editNombre").value;
+  const apellido = document.getElementById("editApellido").value;
+  const telefono = document.getElementById("editTelefono").value;
+  const FechaNacimiento = document.getElementById("editFechaNacimiento").value;
+
+  const repetido = alumnos.find(a =>
+    a.id !== id &&
+    (
+      (a.nombre === nombre && a.apellido === apellido) ||
+      a.telefono === telefono
+    )
+  );
+
+  if (repetido && !confirm("Ya existe un alumno con esos datos. ¿Guardar igual?")) {
+    return;
+  }
+
+  const alumno = alumnos.find(a => a.id === id);
+  alumno.nombre = nombre;
+  alumno.apellido = apellido;
+  alumno.telefono = telefono;
+  alumno.FechaNacimiento = FechaNacimiento;
+
+  guardar();
+  cerrarModal();
+  renderEstado();
+}
+
+function borrarAlumno(id) {
+  const alumno = alumnos.find(a => a.id === id);
+
+  const confirmar = confirm(
+    "¿Seguro que querés borrar a:\n\n" +
+    alumno.nombre + " " + alumno.apellido +
+    "\n\n⚠ Esta acción no se puede deshacer."
+  );
+
+  if (!confirmar) return;
+
+  alumnos = alumnos.filter(a => a.id !== id);
+  guardar();
+  renderEstado();
+}
+
+function cumpleañosHoy(alumno) {
+  if (!alumno.FechaNacimiento) return false;
+
+  const hoy = new Date();
+  const fn = new Date(alumno.FechaNacimiento);
+
+  return (
+    hoy.getDate() === fn.getDate() &&
+    hoy.getMonth() === fn.getMonth()
+  );
+}
+
+function actualizarFechaHora() {
+  const ahora = new Date();
+
+  const opciones = {
+    timeZone: "America/Argentina/Buenos_Aires",
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  };
+
+  let texto = ahora.toLocaleString("es-AR", opciones);
+
+  // Formato personalizado
+  texto = texto
+    .replace(",", "")
+    .replace(":", ":") + " hs";
+
+  texto = texto.toUpperCase();
+
+  document.getElementById("fechaHora").innerText = texto;
+}
+
+// iniciar
+actualizarFechaHora();
+setInterval(actualizarFechaHora, 60000);
+
+/* INIT */
+renderControl();
+</script>
+
+</body>
+</html>

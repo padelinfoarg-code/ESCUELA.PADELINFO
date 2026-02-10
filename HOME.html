@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>IA PADEL APP</title>
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: url("fondo.jpg") center / cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CONTENEDOR */
+.home {
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+/* TITULO */
+.titulo {
+  font-size: 38px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* LINEA FUCSIA */
+.linea-fucsia {
+  width: 180px;
+  height: 4px;
+  background: #e91e63;
+  margin: 12px auto 0;
+  border-radius: 4px;
+}
+
+/* LINEA BLANCA VERTICAL */
+.linea-vertical {
+  width: 2px;
+  height: 0;
+  background: white;
+  margin: 0 auto;
+  transition: height 0.4s ease;
+}
+
+/* MENU */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* BOTONES */
+.menu button {
+  padding: 12px 26px;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  border: 2px solid #1976d2;
+  border-radius: 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* ACTIVO */
+.home.activo .linea-vertical {
+  height: 80px;
+}
+
+.home.activo .menu {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#fechaHora {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: rgba(0,0,0,0.45);
+  padding: 8px 14px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="fechaHora"></div>
+
+
+<div class="home" id="home">
+  <div class="titulo" onclick="toggleMenu()">IA PADEL APP</div>
+  <div class="linea-fucsia"></div>
+  <div class="linea-vertical"></div>
+
+  <div class="menu">
+    <button onclick="irEntrenamientos()">ENTRENAMIENTOS</button>
+    <button onclick="irControl()">CONTROL DE ALUMNOS</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById("home").classList.toggle("activo");
+}
+
+function irEntrenamientos() {
+  window.location.href = "ENTRENAMIENTOS.html";
+}
+
+function irControl() {
+  window.location.href = "CONTROL DE ALUMNOS.html";
+}
+
+/* 🔥 DESPLIEGUE AUTOMÁTICO */
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("home").classList.add("activo");
+  }, 500);
+});
+
+function actualizarFechaHora() {
+  const ahora = new Date();
+
+  const opciones = {
+    timeZone: "America/Argentina/Buenos_Aires",
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  };
+
+  let texto = ahora.toLocaleString("es-AR", opciones);
+
+  texto = texto.toUpperCase() + " HS";
+
+  document.getElementById("fechaHora").innerText = texto;
+}
+// iniciar
+actualizarFechaHora();
+setInterval(actualizarFechaHora, 60000);
+
+
+</script>
+
+</body>
+</html>

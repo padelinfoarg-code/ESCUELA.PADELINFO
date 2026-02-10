@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ENTRENAMIENTOS</title>
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: url("fondo.jpg") center / cover no-repeat fixed;
+  color: #ddd;
+}
+
+/* HEADER */
+.header {
+  padding: 20px 30px;
+}
+
+h1 {
+  margin: 0 0 14px;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+/* BOTONERA */
+.botones {
+  display: flex;
+  gap: 12px;
+}
+
+/* BOTONES */
+button {
+  padding: 10px 22px;
+  font-size: 14px;
+  border-radius: 18px;
+  border: 2px solid #1976d2;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgba(25,118,210,0.35);
+}
+
+#fechaHora {
+  position: fixed;
+  top: 16px;
+  right: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: rgba(0,0,0,0.45);
+  padding: 8px 14px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="fechaHora"></div>
+
+<div class="header">
+  <h1>ENTRENAMIENTOS</h1>
+
+  <div class="botones">
+    <button onclick="irHome()">HOME</button>
+    <button onclick="irControl()">CONTROL DE ALUMNOS</button>
+  </div>
+</div>
+
+<script>
+function irHome() {
+  window.location.href = "HOME.html";
+}
+
+function irControl() {
+  window.location.href = "CONTROL DE ALUMNOS.html";
+}
+
+function actualizarFechaHora() {
+  const ahora = new Date();
+
+  const opciones = {
+    timeZone: "America/Argentina/Buenos_Aires",
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  };
+
+  let texto = ahora.toLocaleString("es-AR", opciones);
+
+  // Formato personalizado
+  texto = texto
+    .replace(",", "")
+    .replace(":", ":") + " hs";
+
+  texto = texto.toUpperCase();
+
+  document.getElementById("fechaHora").innerText = texto;
+}
+
+// iniciar
+actualizarFechaHora();
+setInterval(actualizarFechaHora, 60000);
+
+</script>
+
+</body>
+</html>
