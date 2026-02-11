@@ -1,0 +1,328 @@
+[
+  {
+    "id": 1770719275884,
+    "nombre": "CAMILA",
+    "apellido": "SALVATIERRA",
+    "telefono": "3858",
+    "FechaNacimiento": "2010/01/01",
+    "circulos": [
+      false,
+      true,
+      true,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "8/2/2026",
+        "monto": "15000"
+      }
+    ]
+  },
+  {
+    "id": 1770719238090,
+    "nombre": "ISMAEL",
+    "apellido": "LESCANO",
+    "telefono": "3858409835",
+    "FechaNacimiento": "2010/01/01",
+    "circulos": [
+      false,
+      true,
+      true,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "8/2/2026",
+        "monto": "15000"
+      }
+    ]
+  },
+  {
+    "id": 1770476217114,
+    "nombre": "SILVANA",
+    "apellido": "ZELAYA",
+    "telefono": "0",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "8/2/2026",
+        "monto": "15000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770476283443,
+    "nombre": "MICA",
+    "apellido": "ROJAS",
+    "telefono": "0",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "6/2/2026",
+        "monto": ""
+      },
+      {
+        "fecha": "8/2/2026",
+        "monto": "15000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770476120179,
+    "nombre": "NORMI",
+    "apellido": "COLL",
+    "telefono": "0",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770476092003,
+    "nombre": "SOL",
+    "apellido": "TAPIA",
+    "telefono": "0",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770474188003,
+    "nombre": "CRISTIAN",
+    "apellido": "GRAU",
+    "telefono": "3858489099",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770474155219,
+    "nombre": "RAMIRO",
+    "apellido": "TAPIA",
+    "telefono": "3858506089",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770474116916,
+    "nombre": "JORGE",
+    "apellido": "COSTILLA",
+    "telefono": "3858499389",
+    "fechaNacimiento": "",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770472160304,
+    "nombre": "lori",
+    "apellido": "gramajo",
+    "telefono": "3865419518",
+    "fechaNacimiento": "1982-08-18",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [],
+    "FechaNacimiento": "1982/08/18"
+  },
+  {
+    "id": 1770469646902,
+    "nombre": "ROSITA",
+    "apellido": "JIMENEZ",
+    "telefono": "3858461669",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "6/2/2026",
+        "monto": "6000"
+      }
+    ],
+    "FechaNacimiento": "1978/02/09"
+  },
+  {
+    "id": 1770469485693,
+    "nombre": "MILKA",
+    "apellido": "BAZAN",
+    "telefono": "3858508508",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "1/2/2026",
+        "monto": "12000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770469409918,
+    "nombre": "MARIANELA",
+    "apellido": "JUAREZ",
+    "telefono": "3858480608",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "1/2/2026",
+        "monto": "12000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770446786764,
+    "nombre": "TOMY",
+    "apellido": "RIVERO",
+    "telefono": "3853140784",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "4/2/2026",
+        "monto": "6000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770446571334,
+    "nombre": "BRANDON",
+    "apellido": "PAZ",
+    "telefono": "3858455229",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "5/2/2026",
+        "monto": "6000"
+      },
+      {
+        "fecha": "6/2/2026",
+        "monto": "1"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770446689532,
+    "nombre": "ENZO",
+    "apellido": "ALANIZ",
+    "telefono": "3858687216",
+    "circulos": [
+      false,
+      false,
+      true,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "1/2/2026",
+        "monto": "12000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  },
+  {
+    "id": 1770446631100,
+    "nombre": "MAURO",
+    "apellido": "VERA",
+    "telefono": "3858503077",
+    "circulos": [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "pagos": [
+      {
+        "fecha": "1/2/2026",
+        "monto": "12000"
+      }
+    ],
+    "FechaNacimiento": "2010/01/01"
+  }
+]
