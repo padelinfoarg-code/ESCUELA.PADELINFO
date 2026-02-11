@@ -153,6 +153,7 @@ input {
 <button onclick="irHome()">HOME</button>
 <button onclick="irEstado()">Estado de alumnos</button>
 <button onclick="irEntrenamientos()">ENTRENAMIENTOS</button>
+<button onclick="cargarDesdeRepo()">Cargar base inicial</button>
 
 
 <div id="contenido"></div>
@@ -201,6 +202,31 @@ function cerrarModal() {
   modal.classList.add("oculto");
 }
 
+function cargarDesdeRepo() {
+  fetch("alumnos.json")
+    .then(res => {
+      if (!res.ok) throw new Error("No se pudo cargar alumnos.json");
+      return res.json();
+    })
+    .then(data => {
+      if (!Array.isArray(data)) {
+        alert("El archivo JSON no es válido");
+        return;
+      }
+
+      alumnos = data;
+      guardar();
+      renderEstado();
+
+      alert("✔ Datos cargados desde el repositorio");
+    })
+    .catch(err => {
+      alert("Error al cargar el archivo JSON");
+      console.error(err);
+    });
+}
+
+  
 /* =====================
    CONTROL DE ALUMNOS
 ===================== */
